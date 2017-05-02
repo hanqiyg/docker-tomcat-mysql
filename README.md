@@ -1,7 +1,7 @@
 ### Base on mdelapenya/docker-tomcat-mysql
 ## Add tomcat-users.xml with 
-user "admin" 
-password "admin"
+user `admin`
+password `admin`
 
 ## Usage
 
