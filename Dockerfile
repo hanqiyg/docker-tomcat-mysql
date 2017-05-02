@@ -26,6 +26,8 @@ ADD start-mysqld.sh /start-mysqld.sh
 
 # Add tomcat.conf with gui user admin@admin
 COPY tomcat-users.xml $TOMCAT_HOME/conf/
+COPY jpress-web-newest.war $TOMCAT_HOME/webapps/jpress.war
+
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 ADD my.cnf /etc/mysql/conf.d/my.cnf
