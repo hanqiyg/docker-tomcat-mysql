@@ -1,3 +1,8 @@
+### Base on mdelapenya/docker-tomcat-mysql
+## Add tomcat-users.xml with 
+user "admin" 
+password "admin"
+
 ## Usage
 
 To create the image `mdelapenya/tomcat-mysql`, execute the following command on the mdelapenya-docker-tomcat-mysql folder:
