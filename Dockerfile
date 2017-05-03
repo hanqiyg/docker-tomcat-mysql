@@ -6,6 +6,17 @@ ENV TOMCAT_MAJOR_VERSION=7
 ENV TOMCAT_VERSION=7.0.77
 ENV TOMCAT_HOME=/opt/apache-tomcat-$TOMCAT_VERSION
 
+# Install sshd;
+RUN apt-get update
+
+RUN apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+
+RUN echo 'root:root' |chpasswd
+
+RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
+
 # Install mysql-server and tomcat 7
 RUN apt-get update && apt-get install -y lsb-release && \
   wget https://dev.mysql.com/get/mysql-apt-config_0.8.4-1_all.deb && \
@@ -13,6 +24,7 @@ RUN apt-get update && apt-get install -y lsb-release && \
   mkdir -p $TOMCAT_HOME && cd /opt && \
   wget http://mirrors.standaloneinstaller.com/apache/tomcat/tomcat-$TOMCAT_MAJOR_VERSION/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz && \
   tar -xvf apache-tomcat-$TOMCAT_VERSION.tar.gz && rm -f apache-tomcat-$TOMCAT_VERSION.tar.gz
+CMD    ["/usr/sbin/sshd", "-D"]
 
 # Install packages
 RUN apt-get update && \
@@ -47,6 +59,6 @@ WORKDIR $TOMCAT_HOME
 # Add volumes for MySQL 
 VOLUME  ["/etc/mysql", "/var/lib/mysql"]
 
-EXPOSE 8080 3306
+EXPOSE 8080 3306 22
 
 ENTRYPOINT ["/run.sh"]
